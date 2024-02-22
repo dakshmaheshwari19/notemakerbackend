@@ -3,6 +3,12 @@ import { User } from "../models/user.model.js"
 import { ApiError } from "../utils/ApiError.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 
+const loadNotes = asyncHandler(async(req,res)=>{
+    const {userId} =req.body
+
+    const arrayOfNotes = await Note.find({owner:userId})
+    res.status(201).json({arrayOfNotes})
+})
 
 const addNewNote = asyncHandler(async(req,res)=>{
     // take req 
@@ -66,4 +72,4 @@ const changeState = asyncHandler(async(req,res)=>{
 
 })
 
-export {addNewNote,deleteNote,editNote,changeState}
+export {addNewNote,deleteNote,editNote,changeState,loadNotes}
