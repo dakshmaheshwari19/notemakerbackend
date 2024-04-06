@@ -2,11 +2,13 @@ import {Note} from "../models/note.model.js"
 import { User } from "../models/user.model.js"
 import { ApiError } from "../utils/ApiError.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
+import jwt from "jsonwebtoken";
 
 const loadNotes = asyncHandler(async(req,res)=>{
-    const {userId} =req.body
-
+    console.log(req.user);
+    const userId = req.user._id;
     const arrayOfNotes = await Note.find({owner:userId})
+    // console.log(arrayOfNotes);
     res.status(201).json({arrayOfNotes})
 })
 
@@ -15,8 +17,9 @@ const addNewNote = asyncHandler(async(req,res)=>{
     // catch the user
     //push it into user notes
 
-    const {userId,title,description}=req.body
-     
+
+    const {title,description}=req.body
+     const userId = req.user._id;
     if(!userId){
         throw new ApiError(400,"User ID is required")
     }
@@ -43,7 +46,8 @@ const deleteNote = asyncHandler(async(req,res)=>{
     // delete note
     const {noteId}=req.body
      
-    await Note.findByIdAndDelete(noteId);
+    const resp = await Note.findByIdAndDelete(noteId);
+    console.log("note deleted : ",resp.title);
 
     res.status(201).json({ message: 'Note deleted successfully' });
 })
@@ -55,8 +59,10 @@ const editNote = asyncHandler(async(req,res)=>{
         noteId,
         {title,description}
     )
+    const updatedNote = await Note.findById(noteId)
+    console.log("updated");
 
-    res.status(201).json({ message: 'Note edited successfully' });
+    res.status(201).json({ updatedNote,message: 'Note edited successfully' });
 
 })
 
@@ -67,8 +73,10 @@ const changeState = asyncHandler(async(req,res)=>{
         noteId,
         {starred,archived,trashed}
     )
+    const updatedNote = await Note.findById(noteId)
+    console.log(updatedNote);
 
-    res.status(201).json({ message: 'state changed successfully' });
+    res.status(201).json({updatedNote, message: 'Note Updated successfully' });
 
 })
 

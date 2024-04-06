@@ -38,6 +38,7 @@ const registerUser= asyncHandler(async(req,res)=>{
     // make cookies
 
     const {username,email,fullname,password}=req.body
+    console.log(req.body);
 
     if (!username || !email || !fullname || !password ){
         throw new ApiError(400,"All fields are required")
@@ -84,10 +85,10 @@ const registerUser= asyncHandler(async(req,res)=>{
     if(!createdUser){
         throw new ApiError(500,"Something went wrong while creating new user")
     }
+    
+    console.log(createdUser);
 
-    return res.status(201).json(
-        new ApiResponse(200,createdUser,"user registered successfully")
-    )
+    return res.status(202).json({ createdUser,message: 'user created successfully' })
     
 })
 

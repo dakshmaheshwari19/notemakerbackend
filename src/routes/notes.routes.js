@@ -5,8 +5,8 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router()
 
-router.route("/loadNotes").get(loadNotes)
-router.route("/addNote").post(addNewNote)
+router.route("/loadNotes").post(verifyJWT,loadNotes)
+router.route("/addNote").post(verifyJWT,addNewNote)
 router.route("/deleteNote").post(deleteNote)
 router.route("/editNote").post(editNote)
 router.route("/changeState").post(changeState)
