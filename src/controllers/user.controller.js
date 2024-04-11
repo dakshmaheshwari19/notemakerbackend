@@ -177,6 +177,12 @@ const loginUser = asyncHandler(async (req,res)=>{
     
     })
     
+const loadUser = asyncHandler(async(req,res)=>{
+        const userId = req.user._id;
+        const userData = await User.findById(userId).
+        select("-password -refreshToken")
+        res.status(201).json({userData})
+})
     
     const logoutUser = asyncHandler(async(req,res)=>{
         //clear cookies
@@ -258,4 +264,4 @@ const loginUser = asyncHandler(async (req,res)=>{
     
     })
 
-export {registerUser,loginUser,logoutUser,refreshAccessToken}
+export {registerUser,loginUser,logoutUser,refreshAccessToken,loadUser}
