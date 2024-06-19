@@ -1,17 +1,15 @@
 // promise wrapping
-const asyncHandler = (requestHandler)=>{
-    return (req,res,next)=>{
-        Promise.resolve(requestHandler(req,res,next))
-        .catch((err)=>next(err))
-    }
-} 
+const asyncHandler = (requestHandler) => {
+  return (req, res, next) => {
+    Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err));
+  };
+};
 
-export {asyncHandler}
+export { asyncHandler };
 
 // const asyncHandler = ()=>{}
 // const asyncHandler= (func)=>{}
 // const asyncHandler = (func)=>()=>{}
-
 
 // // try catch wrapping of a function
 // const asyncHandler = (func)=> async (req,req,next)=>{
@@ -24,4 +22,3 @@ export {asyncHandler}
 //         })
 //     }
 // }
-
